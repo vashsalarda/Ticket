@@ -41,17 +41,18 @@ namespace Ticket.Controllers
         // PATCH: tickets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateItem(long id, TicketDTO ticketDTO)
+        public async Task<IActionResult> UpdateItem(long id, UpdateTicketDTO ticketDTO)
         {
-            if (id != ticketDTO.Id)
-            {
-                return BadRequest();
-            }
+            
 
             var ticket = await _context.Tickets.FindAsync(id);
             if (ticket == null)
             {
                 return NotFound();
+            }
+            else if (id != ticket.Id)
+            {
+                return BadRequest();
             }
 
             ticket.Title = ticketDTO.Title;
